@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block page_title %}Отметить{% endblock page_title%}
+
+{% block custom_css %}
+
+<link rel="stylesheet" href="{% static 'css/normative.css' %}">
+<link rel="stylesheet" href="{% static 'css/costum.css' %}">
+<link rel="stylesheet" href="{% static 'css/common_styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/uikit.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/css/style.css' %}">
+
+<style>
+.textareadesc {
+    border: 1px solid #a7a7a7;
+}
+</style>
+
+{% endblock custom_css %}
+
+{% block content %}
+
+<div class="page-content" style="padding-bottom: 298px;">
+
+    <div class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row no-gutters slider-text align-items-end justify-content-start">
+            <div class="col-md-12 ftco-animate text-center mb-5">
+                <p class="breadcrumbs mb-0"><span class="mr-3"><a href="{% url 'index' %}">Главная <i class="ion-ios-arrow-forward"></i></a></span> <span>Хочу отметить дорогу</span></p>
+              <h1 class="mb-3 bread ">Хочу отметить дорогу</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <form id="signUpForm" action="#!">
+          <!-- start step indicators -->
+          <div class="form-header d-flex mb-4">
+              <span class="stepIndicator">Выбрать город</span>
+              <span class="stepIndicator">Отметка участка города</span>
+              <span class="stepIndicator">Добавить фото</span>
+              <span class="stepIndicator">Описать проблему</span>
+          </div>
+          <!-- end step indicators -->
+      
+          <!-- step one -->
+          <div class="step">
+              <p class="text-center mb-4">Выберите город</p>
+              <div class="mb-3">
+                  <input type="city" placeholder="Введите город" oninput="this.className = ''" name="city">
+              </div>
+          </div>
+      
+          <!-- step two -->
+          <div class="step">
+              <p class="text-center mb-4">Отметить участок дороги на карте:</p>
+              <div class="mb-3">
+                  <input type="street" placeholder="Название улицы" oninput="this.className = ''" name="streetname">
+              </div>
+          </div>
+      
+          <!-- step three -->
+          <div class="step">
+              <p class="text-center mb-4">Добавить фотографии</p>
+              <div class="mb-3">
+                  <input type="file" oninput="this.className = ''" name="fullname">
+              </div>
+          </div>
+
+          <!-- step four -->
+          <div class="step">
+            <p class="text-center mb-4">Добавьте описание проблемы:</p>
+            <div class="mb-3">
+                <textarea type="text" cols="20" rows="10" class="textareadesc" placeholder="Описание проблемы" oninput="this.className = ''" name="problem" style="width: 420px;"></textarea>
+            </div>
+        </div>
+      
+          <!-- start previous / next buttons -->
+          <div class="form-footer d-flex">
+              <button type="button" id="prevBtn" onclick="nextPrev(-1)">Предыдущий</button>
+              <button type="button" id="nextBtn" onclick="nextPrev(1)">Продолжить</button>
+          </div>
+          <!-- end previous / next buttons -->
+      </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block page_title %}Карта{% endblock page_title%}
+    
+{% block custom_css %}  
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+
+
+
+    
+    <style>
+        #map {
+            width: 100%;
+            height: 500px;
+        }
+        .map-container{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 2%;
+            display: flex;
+            justify-content: center;
+        }
+        .map {
+            border: 1px solid rgba(0,0,0,.125);;
+            position: relative;
+            padding: 20px 20px;
+        }
+       
+        .map img{
+            max-width: 100%;
+            height: auto;
+            
+        }
+        .info-panel{
+            padding-left: 20px;
+        }
+        .el{
+            cursor: pointer;
+        }
+        
+    </style>
+
+{% endblock custom_css %}
+    
+
+{% block content %}
+
+
+
+<div class="hero-wrap hero-wrap-2" style="background-image: url('static/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-end justify-content-start">
+        <div class="col-md-12 ftco-animate text-center mb-5">
+            <p class="breadcrumbs mb-0"><span class="mr-3"><a href="{% url 'index' %}">Главная <i class="ion-ios-arrow-forward"></i></a></span><span class="mr-3"><a href="{% url 'get_map' %}">Регионы <i class="ion-ios-arrow-forward"></i></a></span> <span>{{address}}</span></p>
+          <h1 class="mb-3 bread">Субъекты Кыргызской Республики</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+        
+        <div class="map-container">
+            <div id='map'></div>
+    </div>
+
+{% endblock %}
+   
+{% block custom_js%}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+<script>
+  mapboxgl.accessToken = '{{ access_token }}';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: ['{{ longitude }}', '{{ latitude }}'],
+    maxZoom: 15,
+    minZoom: 13
+    });
+</script>
+
+  <script src="{% static 'js/mousetip.js' %}"></script>
+  <script>
+    let mouseTip = new MouseTip({
+        cssZIndex        : '9999',
+        cssPosition      : 'absolute',
+        cssPadding       : '15px',
+        cssBorderRadius  : '4px',
+        cssBackground    : 'rgba(0,0,0,0.75)',
+        cssColor         : '#fff',
+        html             : true,
+        position         : 'bottom right',
+        selector         : 'mousetip',
+        stylesheet       : false
+    });
+    mouseTip.start();
+
+    let finance = [4, 7, 2, 5, 11, 9, 24];
+    let road_network = ['379,60','404,2', '781,6', '802,1', '200,9', '532,6'];
+    let total = ['12 632,54', '10 230,12', '12802,13', '14 139,42', '5320,6'];
+    let last = ['108 364,00', '121 211,42', '111 764,25', '140 991,2'];
+    let last_tgt = ['169 164,20', '170 211,00', '182 364,08', '168 002,05'];
+
+    let current = ['15 160,00', '21 561,21', '30 901,22', '24 421,12'];
+    let current_tgt = ['189 160,12', '183 211,00', '190 361,18', '178 002,05'];
+
+    let percents = ['65', '95', '70', '55', '80'];
+    let current_percents = ['10', '30', '25', '40', '49'];
+
+    function getNetwork() {
+        return road_network[Math.floor(Math.random() * road_network.length)];
+    }
+    function getTotal(){
+        return total[Math.floor(Math.random() * total.length)];
+    }
+    function getLast(){
+        return last[Math.floor(Math.random() * last.length)];
+    }
+    function getLastTarget(){
+        return last_tgt[Math.floor(Math.random() * last_tgt.length)];
+    }
+    function getPercents(){
+        return percents[Math.floor(Math.random() * percents.length)] + '%';
+    }
+    function getCurrentPercents(){
+        return current_percents[Math.floor(Math.random() * current_percents.length)] + '%';
+    }
+    function getCurrent(){
+        return current[Math.floor(Math.random() * current.length)];
+    }
+    function getCurrentTarget(){
+        return current_tgt[Math.floor(Math.random() * current_tgt.length)];
+    }
+
+    $(function(){
+        $('.el').on('click', function(){
+           let id = $(this).attr('alt');
+           let region = $(this).attr('mousetip-msg');
+           let card_title = $('.card-title');
+           let roadnetwork = $('.road-network');
+           let total_length = $('.total-length');
+           let last_finished, last_target, current_finished, current_target,
+           last_progress, current_progress;
+           last_finished = $('.last-finished');
+           last_target = $('.last-target')
+           last_progress = $('#last-progress');
+
+           current_finished = $('.current-finished');
+           current_target = $('.current-target');
+           current_progress = $('#current-progress');
+           
+           card_title.text(region);
+           roadnetwork.text(getNetwork());
+           total_length.text(getTotal());
+           last_finished.text(getLast());
+           last_target.text(getLastTarget());
+           last_progress.css('width', getPercents());
+
+           current_finished.text(getCurrent());
+           current_target.text(getCurrentTarget());
+           current_progress.css('width', getCurrentPercents());
+
+        })
+    });
+  </script>
+
+<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/jquery.maphilight.min.js' %}"></script>
+<script type="text/javascript">$(function() {
+    $('.kg').maphilight({fill:true, fillColor:'f22f34', stroke:false});
+});
+</script>
+{% endblock custom_js%}

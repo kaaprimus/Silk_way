@@ -1,0 +1,325 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin=""></script>
+
+    <style>
+        .map-wrapper{
+            position: relative;
+        }
+        #open-map { height: 100vh; }
+        .nav-controls{
+            width: 100%;
+            position: fixed;
+            z-index: 999;
+            right: 0;
+            top: 5%;
+            display: flex;
+            justify-content: space-between;
+            padding-left: 60px;
+        }
+        .mapfooter-navbar ul,
+        .map-navbar ul{
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            flex-direction: row-reverse;
+        }
+        .mapfooter-navbar ul li a,
+        .map-navbar ul li a{
+            font-size: 25px;
+            color: #5a5a5aef;
+            background-color: #f1f1f1;
+            padding: 15px;
+            font-weight: 700;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .map-footer{
+            position: fixed;
+            z-index: 999;
+            bottom: 20px;
+            width: 95%;
+        }
+        .mapfooter-navbar {
+            width: 100%;
+        }
+        .mapfooter-navbar ul li a.active,
+        .map-navbar ul li a.active{
+            color: #f8a900ef;
+            font-weight: 900;
+        }
+        .left-title{
+            background-color: #000;
+            color: #f8a900ef;
+            padding: 10px;
+            width: 450px;
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .left-total{
+            background-color: #f8a900ef;
+            color: #fff;
+            margin-top: 20px;
+            padding: 10px;
+            width: 450px;
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .mapfooter-navbar ul li a{
+            display: inline-block;
+            width: 100%;
+        }
+        .mapfooter-navbar ul li a{
+            font-size: 20px;
+        }
+        .mapfooter-navbar ul li a:hover{
+            text-decoration: none;
+        }
+        .mapfooter-navbar ul li{
+            width: 17%;
+            text-align: center;
+        }
+        .mapfooter-title{
+          
+            width: 30% !important;
+            margin-bottom: 20px;
+        }
+        .mapfooter-title a{
+            background-color: #f8a900ef !important;
+            color: #fff !important;
+            font-size: 25px !important;
+        }
+        .chck{
+            margin-right: 10px;
+        }
+        .destroyed{
+            color: red !important;
+        }
+        .yama{
+            color: orange !important;
+        }
+        .remontirovano{
+            color: rgb(114, 222, 5) !important;
+        }
+        .ochag{
+            color: #9f2b29 !important;
+        }
+        .planah{
+            color: rgb(255, 162, 0) !important;
+        }
+        .remont{
+            color: crimson !important;
+        }
+        .defect{
+            color: rgb(255, 0, 157) !important;
+        }
+        .defectisp{
+            color: rgb(65, 116, 244) !important;
+        }
+        .map-img{
+            max-width: 100%;
+        }
+        .img-before{
+            max-width: 150px;
+            margin-right: 5px;
+        }
+        .zoom-img:hover{
+            transition: transform .5s;
+            transform: scale(2);
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="openmap-container">
+        <div class="controls-container">
+            <div class="controls">
+
+            </div>
+        </div>
+        <div class="map-wrapper">
+            <div class="nav-controls">
+                <div class="left-info d-flex flex-column">
+                    <div class="left-title">
+                        <h2>Город Бишкек <i class="bi bi-geo-alt-fill text-white"></i></h2>
+                    </div>
+                    <div class="left-total">
+                        <h2>Итоги 2023 году</h2>
+                    </div>
+                </div>
+                <div class="map-navbar">
+                    <ul>
+                        <li><a href="#">2015</a></li>
+                        <li><a href="#">2016</a></li>
+                        <li><a href="#">2017</a></li>
+                        <li><a href="#">2018</a></li>
+                        <li><a href="#">2019</a></li>
+                        <li><a href="#">2020</a></li>
+                        <li><a href="#">2021</a></li>
+                        <li><a href="#">2022</a></li>
+                        <li><a href="#" class="active">2023</a></li>
+                        <li><a href="#">Все</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="map-footer">
+                <div class="mapfooter-navbar">
+                    <ul>
+                        <li class="mapfooter-title"><a href="#" >Дороги Кыргызстана</a></li>
+                        <li>
+                            <a href="#" class="destroyed">
+                               <input type="radio" name="destroyed" id="destroyed" class="chck"> 
+                               <label for="destroyed" >Убитая дорога</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="yama">
+                                <input type="radio" name="yama" id="yama" class="chck"> 
+                                <label for="yama" >Ямочный ремонт</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="remontirovano">
+                                <input type="radio" name="remontirovano" id="remontirovano" class="chck"> 
+                                <label for="remontirovano" >Отремонтировано</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="ochag">
+                                <input type="radio" name="ochag" id="ochag" class="chck"> 
+                                <label for="ochag" >Очаг аварийности</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="planah">
+                                <input type="radio" name="planah" id="planah" class="chck"> 
+                                <label for="planah" >В планах ремонта</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="defect">
+                                <input type="radio" name="defect" id="defect" class="chck"> 
+                                <label for="defect" >Локальный дефект</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="defectisp">
+                                <input type="radio" name="defectisp" id="defectisp" class="chck"> 
+                                <label for="defectisp" >Дефект исправен</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="remont">
+                                <input type="radio" name="remont" id="remont" class="chck"> 
+                                <label for="remont" >Закрыто на ремонт</label>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'index' %}" class="remont">
+                                Главная
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>   
+            <div id="open-map">
+            </div>
+        </div>
+        
+    </div>
+   
+
+    <script>
+        var map = L.map('open-map').setView([42.850963, 74.608315], 15);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+var ubitaia = L.polygon([
+    [42.843295, 74.601781],
+    [42.857005, 74.602586] 
+], {color: 'red', weight: 10}).addTo(map);
+
+
+var polygon = L.polygon([
+    [42.849899, 74.608227],
+    [42.850963, 74.608315],
+], {weight: 10}).addTo(map);
+
+var ochag = L.polygon([
+    [42.84883, 74.606679],
+    [42.849946, 74.606786] 
+], {color: '#9f2b29', weight: 10}).addTo(map);
+
+var remontirovano = L.polygon([
+    [42.842927, 74.608787],
+    [42.843444, 74.586096],
+], {color: 'rgb(114, 222, 5)', weight: 10}).addTo(map);
+
+
+var zakryto = L.polygon([
+    [42.837505, 74.608305],
+    [42.83804, 74.600408]
+], {color: 'red', weight: 10}).addTo(map);
+
+zakryto.bindPopup('<h5 class="text-danger">Закрыто на ремонт</h5><br><b>от ул. Абдырахманова до ул. Суеркулова</b><br><b>Финансировано: 7 млн сомов </b><br> <b> Исполнитель: ОАО Кыргыз Жол</b><br><b>Дата начало работы: 01.04.2023</b> <br><b>Протяженность: 3км</b><br><b>Дата завершения работы: 15.04.2023</b>'
++ '<a href="{% static "images/650x.jpg" %}" target="_blank"><img src="{% static "images/650x.jpg" %}" class="map-img zoom-img"></a>');
+
+ochag.bindPopup('<b>Очаг аварийности</b><br><b><a href="#">ул. Тыныстанова</a></b>'
++ '<a href="{% static "images/IMG_2256.JPG.1920x1080_q85.jpg" %}" target="_blank"><img src="{% static "images/IMG_2256.JPG.1920x1080_q85.jpg" %}" class="map-img zoom-img"></a>')
+
+polygon.bindPopup("<h5 class='text-primary'>Дефект исправен.</h5><b>Отремонтировано от ул. Скрябина до ул. Медерова</b><br><b>Финансировано: 5 млн сомов </b><br> <b> Исполнитель:ОАО China ROAD</b><br><b>Дата начало работы: 01.04.2023</b> <br><b>Протяженность: 3км</b><br><b>Дата завершения работы: 15.04.2023</b>" + 
+    "<br> <div class='finshed d-flex'><img src='{% static 'images/IMG_2256.JPG.1920x1080_q85.jpg' %}' class='img-before zoom-img'><img src='{% static 'images/IMG_2257.JPG.0x800_q85_crop.jpg' %}' class='img-before zoom-img'></div>");
+
+remontirovano.bindPopup(
+    "<h5>Информация о проекте</h5><b>Отремонтировано от Советской до пр. Мира</b><br><b>Финансировано: 100млн сом</b><br> <b>Исполнитель:ОАО China ROAD</b><br><b>Дата начало работы: 01.04.2023</b> <br><b>Протяженность: 12км</b><br><b>Дата завершения работы: 15.04.2023</b>" + 
+    "<br> <div class='finshed d-flex'><img src='{% static 'images/IMG_2256.JPG.1920x1080_q85.jpg' %}' class='img-before zoom-img'><img src='{% static 'images/cover.jpg' %}' class='img-before zoom-img'></div>");
+
+ubitaia.bindPopup(
+    "<h5 class='text-danger'>Убитая дорога</h5><b>от ул.Ахунбаева до пр. Горького</b><br><b>Протяженность: 8км</b><br><b>Дата регистрации: 07.04.2023</b>" + 
+    "<br> <div class='finshed d-flex'><img src='{% static 'images/IMG_2277.JPG.315x0_q85.jpg' %}' class='img-before zoom-img'><img src='{% static 'images/IMG_2279.JPG.0x800_q85_crop.jpg' %}' class='img-before zoom-img'></div>");
+
+var popup = L.popup();
+
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
+}
+map.on('click', onMapClick);
+
+var geojsonMarkerOptions = {
+    radius: 8,
+    fillColor: "#ff7800",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+
+
+
+	
+
+    </script>
+</body>
+</html>

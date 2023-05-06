@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block page_title %}Silk Way{% endblock page_title%}
+
+{% block custom_css %} 
+
+<style>
+  tr.odd:hover{
+    background-color: #fdab44 !important;
+    color: aliceblue;
+  }
+  tr.even:hover{
+    background-color: #fdab44 !important;
+    color: aliceblue;
+  }
+  .thead_style{
+    background-color:#527adf;
+  }
+
+  .sixteen {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  
+
+  .right {
+    margin-left: 80%;
+  }
+
+  .paginate_button.item.disabled {
+    margin: 5%;
+    background-color: #c68c41;
+    color: aliceblue;
+    border-radius: 10%;
+    padding: 5px 5px;
+  }
+
+  .paginate_button.item {
+    margin: 5%;
+    background-color: #fdab44;
+    color: aliceblue;
+    border-radius: 10%;
+    padding: 5px 5px;
+  }
+
+  .paginate_button.item.active {
+    margin: 5%;
+    background-color: #527adf;
+    color: aliceblue;
+    border-radius: 10%;
+    padding: 5px 5px;
+  }
+
+  .paginate_button.item.active:hover {
+    margin: 5%;
+    color: rgb(255, 255, 255);
+    border-radius: 10%;
+    padding: 5px 5px;
+  }
+
+  /* .paginate_button.item:hover {
+    margin: 5%;
+    color: rgb(69, 17, 80);
+    border-radius: 10%;
+    padding: 5px 5px;
+  } */
+</style>
+
+{% endblock custom_css %}
+    
+
+{% block content %}
+    
+    <div class="hero-wrap hero-wrap-2" style="background-image: url('static/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+          <div class="col-md-12 ftco-animate text-center mb-5">
+          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="{% url 'index' %}">Главная <i class="ion-ios-arrow-forward"></i></a></span> <span>Рейтинги</span></p>
+            <h1 class="mb-3 bread">Народный рейтинг </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+		<section class="ftco-section bg-light">
+      <div class="container">
+        <table id="example" class="uk-table uk-table-hover uk-table-striped" style="width:100%">
+          <thead>
+              <tr class="thead_style">
+                  <th class="text-light">Дата</th>
+                  <th class="text-light">Заголовок</th>
+                  <th class="text-light">Описание</th>
+                  <th class="text-light">Фото</th>
+                  <th class="text-light">Статус</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>Edinburgh</td>
+                  <td>61</td>
+                  <td>2011-04-25</td>
+              </tr>
+              <tr>
+                <td>Tiger Nixon</td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011-04-25</td>
+            </tr>
+            <tr>
+              <td>Tiger Nixon</td>
+              <td>System Architect</td>
+              <td>Edinburgh</td>
+              <td>61</td>
+              <td>2011-04-25</td>
+          </tr>
+          <tr>
+            <td>Tiger Nixon</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            <td>61</td>
+            <td>2011-04-25</td>
+        </tr>
+        <tr>
+          <td>Tiger Nixon</td>
+          <td>System Architect</td>
+          <td>Edinburgh</td>
+          <td>61</td>
+          <td>2011-04-25</td>
+      </tr>
+              <tr>
+                  <td>Garrett Winters</td>
+                  <td>Accountant</td>
+                  <td>Tokyo</td>
+                  <td>63</td>
+                  <td>2011-07-25</td>
+              </tr>
+              <tr>
+                  <td>Ashton Cox</td>
+                  <td>Junior Technical Author</td>
+                  <td>San Francisco</td>
+                  <td>66</td>
+                  <td>2009-01-12</td>
+              </tr>
+              <tr>
+                  <td>Cedric Kelly</td>
+                  <td>Senior Javascript Developer</td>
+                  <td>Edinburgh</td>
+                  <td>22</td>
+                  <td>2012-03-29</td>
+              </tr>
+              <tr>
+                  <td>Airi Satou</td>
+                  <td>Accountant</td>
+                  <td>Tokyo</td>
+                  <td>33</td>
+                  <td>2008-11-28</td>
+              </tr>
+              <tr>
+                  <td>Brielle Williamson</td>
+                  <td>Integration Specialist</td>
+                  <td>New York</td>
+                  <td>61</td>
+                  <td>2012-12-02</td>
+              </tr>
+              <tr>
+                  <td>Herrod Chandler</td>
+                  <td>Sales Assistant</td>
+                  <td>San Francisco</td>
+                  <td>59</td>
+                  <td>2012-08-06</td>
+              </tr>
+              <tr>
+                  <td>Rhona Davidson</td>
+                  <td>Integration Specialist</td>
+                  <td>Tokyo</td>
+                  <td>55</td>
+                  <td>2010-10-14</td>
+              </tr>
+              <tr>
+                  <td>Colleen Hurst</td>
+                  <td>Javascript Developer</td>
+                  <td>San Francisco</td>
+                  <td>39</td>
+                  <td>2009-09-15</td>
+              </tr>
+              <tr>
+                  <td>Sonya Frost</td>
+                  <td>Software Engineer</td>
+                  <td>Edinburgh</td>
+                  <td>23</td>
+                  <td>2008-12-13</td>
+              </tr>
+      </table>
+      </div>
+    </section>
+		
+    <section class="ftco-section services-section">
+      <div class="ftco-counter ftco-no-pt ftco-no-pb">
+        <div class="row">
+  
+          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+          <div class="block-18">
+            <div class="text d-flex">
+              <div class="icon mr-2">
+                <span class="flaticon-worldwide"></span>
+              </div>
+              <div class="desc text-left">
+              <strong class="number" data-number="46">0</strong>
+              <span>Дорог добавлено на карту</span>
+            </div>
+            </div>
+          </div>
+          </div>
+  
+          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+          <div class="block-18 text-center">
+            <div class="text d-flex">
+              <div class="icon mr-2">
+                <span class="flaticon-visitor"></span>
+              </div>
+              <div class="desc text-left">
+              <strong class="number" data-number="450">0</strong>
+              <span>Убитых дорог</span>
+              </div>
+            </div>
+          </div>
+          </div>
+  
+          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+          <div class="block-18 text-center">
+            <div class="text d-flex">
+              <div class="icon mr-2">
+                <span class="flaticon-resume"></span>
+              </div>
+              <div class="desc text-left">
+              <strong class="number" data-number="80000">0</strong>
+              <span>Голосов собрано</span>
+              </div>
+            </div>
+          </div>
+          </div>
+  
+          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+          <div class="block-18 text-center">
+            <div class="text d-flex">
+              <div class="icon mr-2">
+                <span class="flaticon-resume"></span>
+              </div>
+              <div class="desc text-left">
+              <strong class="number" data-number="2500">0</strong>
+              <span>Ямочный ремонт</span>
+              </div>
+            </div>
+          </div>
+          </div>
+  
+          <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate mt-md-5">
+          <div class="block-18 text-center">
+            <div class="text d-flex">
+              <div class="icon mr-2">
+                <span class="flaticon-resume"></span>
+              </div>
+              <div class="desc text-left">
+              <strong class="number" data-number="4700">0</strong>
+              <span>Дорог отремонтировано</span>
+              </div>
+            </div>
+          </div>
+          </div>
+  
+          <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate mt-md-5">
+          <div class="block-18 text-center">
+            <div class="text d-flex">
+              <div class="icon mr-2">
+                <span class="flaticon-resume"></span>
+              </div>
+              <div class="desc text-left">
+              <strong class="number" data-number="500">0</strong>
+              <span>Дороги по БКАД</span>
+              </div>
+            </div>
+          </div>
+          </div>
+  
+          <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate mt-md-5">
+          <div class="block-18 text-center">
+            <div class="text d-flex">
+              <div class="icon mr-2">
+                <span class="flaticon-road"></span>
+              </div>
+              <div class="desc text-left">
+              <strong class="number" data-number="500">0</strong>
+              <span>В планах ремонта</span>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      </section>
+
+{% endblock %}

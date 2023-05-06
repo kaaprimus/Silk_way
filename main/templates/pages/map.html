@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block page_title %}Карта{% endblock page_title%}
+    
+{% block custom_css %}  
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+
+
+
+    
+    <style>
+       
+        .map-container{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .map {
+            border: 1px solid rgba(0,0,0,.125);;
+            position: relative;
+            padding: 20px 20px;
+        }
+       
+        .map img{
+            max-width: 100%;
+            height: auto;
+            
+        }
+        .info-panel{
+            padding-left: 20px;
+        }
+        .el{
+            cursor: pointer;
+        }
+        
+    </style>
+
+{% endblock custom_css %}
+    
+
+{% block content %}
+
+
+
+<div class="hero-wrap hero-wrap-2" style="background-image: url('static/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-end justify-content-start">
+        <div class="col-md-12 ftco-animate text-center mb-5">
+            <p class="breadcrumbs mb-0"><span class="mr-3"><a href="{% url 'index' %}">Главная <i class="ion-ios-arrow-forward"></i></a></span> <span>Карта</span></p>
+          <h1 class="mb-3 bread">Субъекты Кыргызской Республики</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="map-container">
+        <div class="map shadow-lg" id="mapkg">
+            <div class="map-inner" >
+               <img class="kg el" width="1100px" src="{% static 'images/map.png' %}" usemap="#world">
+            </div>
+          
+        </div>
+
+        <div class="info-panel">
+            
+            <form action = "{% url 'map-more-info' %}" method = "POST">
+                {% csrf_token %}
+            <div class="card shadow-lg" style="width: 20rem;">
+                <div class="card-body">
+                  <h5 name="region" id="region" class="card-title">Иссык-Кульская область</h5>
+                  <input type="hidden" id="regionname" name="regionname">
+                  <p class="card-text">Проект "Безопасные качественные дороги Кыргызстана"</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <span class="font-weight-bold financing">Финансирование:</span>
+                    <span class="financing">10 </span>млрд. сом</li>
+                  <li class="list-group-item">
+                    <span class="font-weight-bold">Протяжённость дорожной сети: </span> 
+                    <span class="road-network">379,60</span> км.
+                    <p class="mb-0"><small><i class="bi bi-geo-alt-fill text-danger"></i> г. Каракол</small></p>
+                </li>
+                  <li class="list-group-item">
+                    <span class="font-weight-bold">Общая длина дорог: </span> 
+                    <span class="total-length">12 632,54</span> км</li>
+                  <li class="list-group-item">
+                    <small>Укладка дорожного покрытия в <span class="last-year">2022</span>  г.</small>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" id="last-progress" role="progressbar" style="width: 90%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="text-center mb-1">
+                        <span class="font-weight-bold">
+                           <span class="last-finished">148 364,00</span>  м2 / 
+                           <span class="last-target">160 364,00</span> м2
+                        </span> 
+                    </p>
+                  </li>
+                  <li class="list-group-item">
+                    <small>Укладка дорожного покрытия в <span class="current-year">2023</span> г.</small>
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" id="current-progress" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="text-center mb-1">
+                        <span class="font-weight-bold">
+                           <span class="current-finished">20 364,00</span> м2 / 
+                           <span class="current-target">180 364,00</span> м2
+                        </span> 
+                    </p>
+                  </li>
+                </ul>
+                <div class="card-body">
+                    <a href="{% url 'interactive' %}" class="btn btn-primary mr-1">На карте <i class="bi bi-geo-alt-fill"></i></a>
+                    <a href="#" class="btn btn-primary">Списком <i class="bi bi-card-list"></i></a>
+                </div>
+            </div>
+           </form>
+        </div>
+    </div>
+   
+    <map name="world">
+        <area class="el" mousetip  mousetip-msg="город Бишкек" alt="Bishkek"  coords="540,38,551,40,556,45,555,53,553,61,545,60,537,61,534,53,530,46,533,39" shape="poly">
+        <area alt="Chuy" mousetip mousetip-msg="Чуйская область" class="el" coords="552,38,541,37,532,42,531,53,535,59,547,62,558,59,559,51,575,39,585,44,593,46,601,52,608,52,618,54,628,54,636,54,645,58,657,50,661,39,672,39,679,43,690,39,697,42,704,39,711,44,717,41,721,46,728,39,736,44,743,41,751,41,759,37,767,33,773,30,780,33,791,35,797,44,791,50,786,56,778,58,764,56,756,63,747,57,741,64,730,59,724,66,710,70,698,83,688,83,678,88,668,85,662,91,655,95,651,99,636,110,625,108,618,102,613,109,603,109,594,103,589,109,581,104,566,106,565,114,572,121,566,124,557,124,552,131,543,130,533,135,524,130,517,140,514,149,521,149,515,156,517,162,510,167,514,173,504,170,501,178,493,174,487,165,466,168,457,158,448,165,438,161,430,161,422,156,412,151,401,145,395,138,399,130,411,125,421,128,428,124,436,125,444,123,449,115,455,111,453,103,443,99,442,108,433,96,432,77,437,64,441,55,437,46,442,38,447,30,456,23,469,18,480,16,479,6,487,7,498,8,505,6,508,-1,512,7,519,11,527,12,536,14,545,24,549,30,560,33,575,38,559,52" shape="poly">
+        <area  mousetip  mousetip-msg="Баткенская область" class="el" alt="Batken" coords="21,421,29,419,27,410,27,400,32,393,40,397,50,392,60,390,70,385,80,385,90,389,98,393,106,396,112,404,121,404,131,406,136,410,131,416,125,422,129,432,132,439,136,445,144,442,152,438,143,432,132,423,140,419,145,409,146,399,154,399,162,394,171,394,180,390,184,382,192,382,198,382,206,377,213,376,220,378,228,382,231,390,239,393,244,385,250,390,249,400,256,399,262,392,268,387,275,391,283,389,291,385,301,380,305,386,304,393,305,399,309,404,304,409,310,411,310,418,309,425,315,429,318,437,324,442,330,446,334,454,327,458,317,461,310,466,302,470,292,465,284,466,276,465,268,462,258,458,249,454,242,459,233,463,230,470,222,470,212,474,205,479,196,477,187,479,183,485,182,492,173,494,165,494,156,496,149,492,146,482,141,472,133,470,125,464,118,470,108,470,103,475,100,465,93,468,83,465,74,471,65,468,57,470,46,464,35,465,27,470,19,470,12,465,8,471,4,461,7,451,0,438,4,426,7,412,15,413,7,418" shape="poly">
+        <area mousetip  mousetip-msg="Ошская область" class="el" alt="Osh" coords="278,380,286,374,292,369,297,362,307,358,305,366,311,365,317,367,322,372,328,367,325,356,322,348,320,340,328,342,332,348,338,351,343,355,351,353,353,346,360,348,361,339,367,332,374,332,380,327,389,325,395,320,401,314,406,306,409,297,413,289,419,287,424,287,430,282,437,281,443,281,448,275,454,279,450,286,444,292,449,296,456,299,456,292,463,287,467,280,474,281,476,287,480,294,487,297,490,302,498,307,503,310,507,316,513,323,516,328,522,335,528,336,535,340,542,345,542,353,551,353,555,356,562,358,566,362,565,369,569,375,573,381,561,378,553,381,549,387,541,392,535,397,529,405,522,410,514,413,503,407,499,412,492,414,483,415,482,421,479,428,474,433,474,440,468,444,466,452,469,457,475,463,475,471,479,477,470,483,470,491,462,495,449,495,440,492,428,492,420,498,409,504,398,508,388,504,381,508,371,504,358,504,347,499,338,504,329,506,320,505,310,517,305,526,299,519,290,513,286,500,278,504,264,511,252,513,252,503,258,498,252,489,243,490,232,486,232,478,232,467,239,458,249,450,256,453,263,458,272,460,281,466,288,465,295,464,304,467,315,463,324,458,331,455,332,446,328,438,320,442,316,429,309,428,310,421,310,411,310,401,301,399,304,392,303,382,292,385,283,383" shape="poly">
+        <area alt="Naryn" mousetip mousetip-msg="Нарынская область" class="el" coords="640,338,627,346,618,353,611,360,606,366,595,364,578,360,569,356,555,358,546,353,541,342,522,335,513,322,505,316,494,306,487,296,498,284,490,276,499,271,509,264,521,268,518,258,522,253,532,249,540,245,549,242,554,231,556,221,560,214,552,211,539,221,531,217,523,222,516,217,507,223,499,218,490,221,477,211,477,202,486,202,490,211,499,211,494,199,481,196,481,188,480,181,473,183,461,182,465,169,474,168,487,164,489,173,496,182,503,173,513,170,518,163,516,153,513,145,521,131,531,135,544,131,549,133,555,123,571,125,564,113,568,105,575,107,580,103,587,107,598,106,618,103,625,105,631,103,635,111,644,104,645,111,652,111,663,117,672,112,677,122,683,125,679,135,683,140,687,149,680,158,685,163,693,157,702,160,716,163,729,164,738,168,744,170,740,179,731,181,724,184,731,190,738,188,749,190,750,197,749,204,746,212,756,212,763,215,772,211,785,215,801,214,814,208,812,218,809,225,818,237,819,247,816,254,822,255,843,247,845,254,845,263,857,258,871,262,884,260,897,254,900,262,900,273,891,281,884,280,872,277,858,283,852,288,844,287,836,290,819,283,812,288,797,287,785,283,773,288,761,296,761,304,763,310,754,315,748,329,747,336,746,343,740,348,738,358,733,365,726,371,718,375,711,365,706,372,698,373,687,375,678,381,666,386,657,386,648,377,654,368,646,360,646,349,647,342" shape="poly">
+        <area alt="Jalal-Abad" mousetip mousetip-msg="Жалал-Абадская область" class="el" coords="220,131,232,135,243,131,258,134,269,140,277,142,289,147,299,153,307,149,310,142,318,135,327,135,334,140,343,143,353,142,361,147,367,154,375,155,381,146,390,143,398,144,409,149,417,153,423,160,433,162,439,160,446,165,455,160,462,163,462,172,456,179,461,185,469,181,476,183,482,186,482,195,488,200,494,202,498,209,495,214,481,204,475,209,482,215,488,222,499,219,506,224,516,219,526,224,533,219,541,220,554,212,558,218,555,228,553,235,545,246,532,250,523,252,518,257,522,266,513,266,500,271,489,277,496,284,492,292,488,297,475,290,473,280,466,283,456,293,455,299,444,292,453,285,448,276,444,284,430,281,423,291,414,288,409,294,409,305,393,313,383,309,374,317,373,309,362,306,354,310,342,299,335,287,327,288,321,280,316,285,304,290,305,280,302,266,291,268,277,267,277,252,268,238,257,232,261,226,261,218,252,219,249,226,250,237,248,245,239,247,231,244,229,268,220,267,215,271,211,261,206,268,199,265,189,261,178,260,173,252,165,257,166,246,164,234,158,225,145,231,136,232,130,221,118,219,108,213,117,205,129,195,138,192,141,182,153,174,164,166,173,167,177,154,187,153,202,147,211,142" shape="poly">
+        <area alt="Talas" mousetip mousetip-msg="Таласская область" class="el" coords="198,118,218,130,236,136,244,134,264,140,273,144,283,144,292,149,302,154,308,149,311,140,321,135,330,138,336,142,344,143,354,144,362,149,368,156,376,156,382,149,390,144,398,149,401,141,392,136,398,131,410,125,418,127,427,125,437,128,443,125,450,121,454,111,448,104,443,109,435,112,424,110,422,101,416,95,404,91,388,94,372,89,368,78,355,76,344,73,330,65,322,60,311,60,299,62,286,55,277,53,265,55,256,60,245,55,237,59,229,62,220,64,211,68,213,77,207,82,198,83,202,91,198,97,190,98,189,106,179,115,187,124" shape="poly">
+        <area alt="Issyk-Kul" title="Issyk-Kul" mousetip mousetip-msg="Иссык-Кульская область" class="el" coords="905,265,911,253,918,250,916,242,919,233,927,229,933,224,943,222,944,215,953,210,959,209,965,201,975,200,985,191,998,185,1008,178,1016,181,1024,172,1034,170,1038,163,1049,164,1056,163,1056,152,1066,143,1079,142,1090,143,1099,137,1096,129,1089,119,1083,112,1074,104,1069,95,1062,89,1050,91,1042,87,1033,89,1014,90,1009,78,1004,71,995,67,989,59,990,51,983,46,975,53,965,51,955,51,948,49,938,49,931,43,919,39,907,40,897,41,890,43,883,45,872,45,864,40,857,43,847,38,838,39,833,45,828,38,815,36,812,41,796,40,791,47,786,54,775,57,760,53,758,60,747,58,741,63,727,59,723,65,710,70,702,77,699,83,689,80,677,86,663,83,661,89,650,92,649,100,647,109,655,112,661,117,668,113,676,110,676,119,681,125,678,133,683,142,689,148,681,156,684,162,696,156,701,161,711,160,721,164,729,169,739,170,746,170,742,185,733,182,723,186,728,191,749,190,754,195,750,203,747,210,755,212,760,218,767,214,779,214,788,217,796,211,804,211,814,208,812,216,812,223,807,229,813,232,818,237,821,244,814,253,818,258,826,255,835,249,845,249,848,262,854,261,866,261,876,262,885,260,894,255,899,260" shape="poly">
+    </map>
+
+{% endblock %}
+   
+{% block custom_js%}
+  <script src="{% static 'js/mousetip.js' %}"></script>
+  <script>
+
+  </script>
+  <script>
+    let mouseTip = new MouseTip({
+        cssZIndex        : '9999',
+        cssPosition      : 'absolute',
+        cssPadding       : '15px',
+        cssBorderRadius  : '4px',
+        cssBackground    : 'rgba(0,0,0,0.75)',
+        cssColor         : '#fff',
+        html             : true,
+        position         : 'bottom right',
+        selector         : 'mousetip',
+        stylesheet       : false
+    });
+    mouseTip.start();
+
+    let finance = [4, 7, 2, 5, 11, 9, 24];
+    let road_network = ['379,60','404,2', '781,6', '802,1', '200,9', '532,6'];
+    let total = ['12 632,54', '10 230,12', '12802,13', '14 139,42', '5320,6'];
+    let last = ['108 364,00', '121 211,42', '111 764,25', '140 991,2'];
+    let last_tgt = ['169 164,20', '170 211,00', '182 364,08', '168 002,05'];
+
+    let current = ['15 160,00', '21 561,21', '30 901,22', '24 421,12'];
+    let current_tgt = ['189 160,12', '183 211,00', '190 361,18', '178 002,05'];
+
+    let percents = ['65', '95', '70', '55', '80'];
+    let current_percents = ['10', '30', '25', '40', '49'];
+
+    function getNetwork() {
+        return road_network[Math.floor(Math.random() * road_network.length)];
+    }
+    function getTotal(){
+        return total[Math.floor(Math.random() * total.length)];
+    }
+    function getLast(){
+        return last[Math.floor(Math.random() * last.length)];
+    }
+    function getLastTarget(){
+        return last_tgt[Math.floor(Math.random() * last_tgt.length)];
+    }
+    function getPercents(){
+        return percents[Math.floor(Math.random() * percents.length)] + '%';
+    }
+    function getCurrentPercents(){
+        return current_percents[Math.floor(Math.random() * current_percents.length)] + '%';
+    }
+    function getCurrent(){
+        return current[Math.floor(Math.random() * current.length)];
+    }
+    function getCurrentTarget(){
+        return current_tgt[Math.floor(Math.random() * current_tgt.length)];
+    }
+
+    $(function(){
+        $('.el').on('click', function(){
+           var inputF = document.getElementById("regionname");
+           let id = $(this).attr('alt');
+           let region = $(this).attr('mousetip-msg');
+           let card_title = $('.card-title');
+           let regionname = $('.regionname')
+           let roadnetwork = $('.road-network');
+           let total_length = $('.total-length');
+           let last_finished, last_target, current_finished, current_target,
+           last_progress, current_progress;
+           last_finished = $('.last-finished');
+           last_target = $('.last-target')
+           last_progress = $('#last-progress');
+
+           current_finished = $('.current-finished');
+           current_target = $('.current-target');
+           current_progress = $('#current-progress');
+           
+
+           card_title.text(region);
+           roadnetwork.text(getNetwork());
+           total_length.text(getTotal());
+           last_finished.text(getLast());
+           last_target.text(getLastTarget());
+           last_progress.css('width', getPercents());
+
+           current_finished.text(getCurrent());
+           current_target.text(getCurrentTarget());
+           current_progress.css('width', getCurrentPercents());
+
+           inputF.value = region;
+            el_down.innerHTML =
+                "Value = " + "'" + inputF.value + "'";
+
+        })
+    });
+  </script>
+
+<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/jquery.maphilight.min.js' %}"></script>
+<script type="text/javascript">$(function() {
+    $('.kg').maphilight({fill:true, fillColor:'f22f34', stroke:false});
+});
+</script>
+{% endblock custom_js%}

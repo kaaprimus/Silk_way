@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block page_title %}Silk Way{% endblock page_title%}
+
+{% block custom_css %} 
+
+<style>
+  tr.odd:hover{
+    background-color: #fdab44 !important;
+    color: aliceblue;
+  }
+  tr.even:hover{
+    background-color: #fdab44 !important;
+    color: aliceblue;
+  }
+  .thead_style{
+    background-color:#527adf;
+  }
+
+  .sixteen {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  
+
+  .right {
+    margin-left: 80%;
+  }
+
+  .paginate_button.item.disabled {
+    margin: 5%;
+    background-color: #c68c41;
+    color: aliceblue;
+    border-radius: 10%;
+    padding: 5px 5px;
+  }
+
+  .paginate_button.item {
+    margin: 5%;
+    background-color: #fdab44;
+    color: aliceblue;
+    border-radius: 10%;
+    padding: 5px 5px;
+  }
+
+  .paginate_button.item.active {
+    margin: 5%;
+    background-color: #527adf;
+    color: aliceblue;
+    border-radius: 10%;
+    padding: 5px 5px;
+  }
+
+  .paginate_button.item.active:hover {
+    margin: 5%;
+    color: #fdab44;
+    border-radius: 10%;
+    padding: 5px 5px;
+  }
+
+  .btnmore{
+    color: rgb(255, 255, 255);
+    padding: 5px 5px;
+  }
+
+  /* .paginate_button.item:hover {
+    margin: 5%;
+    color: rgb(69, 17, 80);
+    border-radius: 10%;
+    padding: 5px 5px;
+  } */
+</style>
+
+{% endblock custom_css %}
+    
+
+{% block content %}
+    
+    <div class="hero-wrap hero-wrap-2" style="background-image: url('static/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-start">
+          <div class="col-md-12 ftco-animate text-center mb-5">
+          	<p class="breadcrumbs mb-0"><span class="mr-3"><a href="{% url 'index' %}">Главная <i class="ion-ios-arrow-forward"></i></a></span> <span>Новости</span></p>
+            <h1 class="mb-3 bread">Новости </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section bg-light">
+      <div class="container">
+        <table id="example" class="uk-table uk-table-hover uk-table-striped" style="width:100%">
+          <thead>
+              <tr class="thead_style">
+                  <th class="text-light">Заголовок</th>
+                  <th class="text-light">Краткое описание</th>
+                  <th class="text-light">Дата публикации</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for value in list_of_news %}
+              <tr>
+                  <td><a href="#" class="linktext">{{value.Title}}</a></td>
+                  <td>{{value.Short_Description}}</td>
+                  <td>{{value.Date_added}}</td>
+              </tr>
+              {% endfor %}
+      </table>
+      </div>
+    </section>
+
+{% endblock %}
